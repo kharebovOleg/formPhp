@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="style.css">
+    <title>My Profile</title>
+</head>
+<body>
+<h1>Мой профиль</h1>
+<nav>
+    <ul>
+        <li><button class="menubutton">Личные данные</button></li>
+        <li><button class="menubutton">Адреса доставки</button></li>
+        <li><button class="menubutton">Пароль</button></li>
+    </ul>
+</nav>
+<br>
+<form action="" method="post">
+    <label class="email">
+        Email<em class="red-star">*</em>
+        <br>
+        <input type="email" name="email" id="email" required>
+    </label>
+    <br><br>
+    <div class="phone">
+        <div>
+            <label for="phone-number">Номер телефона <em class="red-star">*</em></label>
+            <input type="number" name="phone-number" id="phone-number" required>
+        </div>
+        <div>
+            <label for="additional_number">Дополнительный номер</label>
+            <input type="number" name="additional_number" id="additional_number" required>
+        </div>
+    </div>
+    <br>
+    <label for="sirname">Фамилия*</label>
+    <input type="text" name="sirname" id="sirname" required>
+    <br>
+    <label for="name">Имя*</label>
+    <input type="text" name="name" id="name" required>
+    <br>
+    <label for="patronymic">Отчество</label>
+    <input type="text" name="patronymic" id="patronymic">
+    <br>
+    <label for="birthday">Дата рождения</label>
+    <input type="date" name="birthday" id="birthday">
+    <br>
+    <label for="sex">Пол</label>
+    <input type="checkbox" name="sex" id="sex">
+</form>
+<script src="script.js"></script>
+</body>
+</html>

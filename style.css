@@ -1,0 +1,62 @@
+
+* {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    color:rgb(35, 7, 63);
+}
+body {
+    width: 604px;
+    height: 733px;
+    margin: 20px;
+    padding: 0;
+}
+
+nav {
+    background-color: rgb(243, 243, 243);
+    height: 40px;
+    display: flex;
+    align-items: center;
+}
+ul {
+    list-style: none;
+    padding-left: 0;
+    display: flex;
+    justify-content: start;
+
+}
+
+li {
+    height: 20px;
+    margin: 5px;
+    display: flex;
+    align-items: center;
+}
+
+button {
+    background-color: rgb(218, 216, 216);
+    height: 30px;
+    border: none;
+    border-radius: 5%;
+}
+
+label {
+    font-size: 12px;
+}
+form {
+    width: 350px;
+}
+
+.red-star {
+    color: red;
+}
+.phone {
+    display: inline;
+}
+.phone div{
+    width: 100px;
+    display: flex;
+}
+
+
+
+
+

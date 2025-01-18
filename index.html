@@ -16,13 +16,13 @@
     </ul>
 </nav>
 <br>
-<form action="" method="post">
+<form id="form" action="">
     <label class="email">
-        Email<em class="red-star">*</em>
+        Email <em class="red-star">*</em>
         <br>
         <input type="email" name="email" id="email" required>
     </label>
-    <br><br>
+    <br>
     <div class="phone">
         <div>
             <label for="phone-number">Номер телефона <em class="red-star">*</em></label>
@@ -30,25 +30,63 @@
         </div>
         <div>
             <label for="additional_number">Дополнительный номер</label>
-            <input type="number" name="additional_number" id="additional_number" required>
+            <input type="number" name="additional_number" id="additional_number">
         </div>
     </div>
     <br>
-    <label for="sirname">Фамилия*</label>
+    <label for="sirname">Фамилия <em class="red-star">*</em></label>
     <input type="text" name="sirname" id="sirname" required>
     <br>
-    <label for="name">Имя*</label>
+    <label for="name">Имя <em class="red-star">*</em></label>
     <input type="text" name="name" id="name" required>
     <br>
     <label for="patronymic">Отчество</label>
     <input type="text" name="patronymic" id="patronymic">
+    <br><br>
+    <div class="birthday">
+        <label>Дата рождения</label>
+        <div class="date-inputs">
+            <select
+                name="day"
+                id="days"
+                onfocus='this.size=5;' 
+                onblur='this.size=1;'
+                onchange='this.size=1; this.blur();'
+            >
+                <option value="" disabled selected>-- День --</option>
+            </select>
+            <select
+                name="month"
+                id="months"
+                onfocus='this.size=5;' 
+                onblur='this.size=1;'
+                onchange='this.size=1; this.blur();'
+            >
+                <option value="" disabled selected>-- Месяц --</option>
+            </select>
+            <select
+                name="year"
+                id="years"
+                onfocus='this.size=5;'
+                onblur='this.size=1;'
+                onchange='this.size=1; this.blur();'
+            >
+                <option value="" disabled selected>-- Год --</option>
+            </select>
+        </div>
+    </div>
+    <br><br>
+    <label>Пол</label>
+    <div class="chose-sex">
+        <input type="radio" id="male" name="sex">
+        <label class="male" for="male" id="male">Мужской</label>
+        <input type="radio" id="female" name="sex">
+        <label class="female" for="female" id="female">Женский</label>
+    </div>
     <br>
-    <label for="birthday">Дата рождения</label>
-    <input type="date" name="birthday" id="birthday">
-    <br>
-    <label for="sex">Пол</label>
-    <input type="checkbox" name="sex" id="sex">
+    <input type="submit" class="save-changings" name="save-changings" value="Сохранить изменения">
 </form>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
 <script src="script.js"></script>
 </body>
 </html>

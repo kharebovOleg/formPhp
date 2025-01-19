@@ -58,41 +58,27 @@ function makeButtonsInteactive() {
   });
 }
 
-
-// Отправка формы
-
-document.querySelector('form').onsubmit = async e => {
-  e.preventDefault();
-  console.log('send...');
-  await fetch('form.php', { method: 'POST', body: new FormData(e.target) })
-    .then(response => response.text())
-    .then(responseText => console.log(responseText))
-    .catch(error => console.error('Ошибка:', error));
-};
-
-
-
 // Валидация полей
 
-const form = document.querySelector('.form')
-const inputList = Array.from(form.querySelectorAll('.form__type-input'))
-const buttonElement = form.querySelector('.button')
-const formErrorElement = form.querySelector('.form__empty-error')
+const form = document.querySelector('.form');
+const inputList = Array.from(form.querySelectorAll('.form__type-input'));
+const buttonElement = form.querySelector('.button');
+const formErrorElement = form.querySelector('.form__empty-error');
 
-startValidation();
+startValidation(); // вкл/выкл валидации
 
 function startValidation() {
   toggleButton()
   form.addEventListener('submit', (event) => {
-    event.preventDefault()
+    event.preventDefault();
     if (hasInvalidInput()) {
-      formError()
+      formError();
       inputList.forEach((inputElement) => {
         checkInputValidity(inputElement);
         toggleInputError(inputElement);
       })
     }
-  })
+  });
   inputList.forEach((inputElement) => {
     inputElement.addEventListener('input', () => {
       checkInputValidity(inputElement);
@@ -151,6 +137,8 @@ function toggleErrorSpan(inputElement, errorMessage){
   }
 }
 
+// делает кнопку отправки формы неактивной
+
 function toggleButton() {
   if (hasInvalidInput()) {
     buttonElement.classList.add('button-inactive');
@@ -163,6 +151,17 @@ function toggleButton() {
 }
 
 function formError() {
-  const errorMessage = 'Заполните все поля для отправки формы.';
+  const errorMessage = 'Заполните все обязательные поля для отправки формы.';
   formErrorElement.textContent = errorMessage;
 }
+
+// Отправка формы
+
+  document.querySelector('form').onsubmit = async e => {
+    e.preventDefault();
+    await fetch('form.php', { method: 'POST', body: new FormData(e.target) })
+      .then(response => response.text())
+      .then(responseText => console.log(responseText))
+      .catch(error => console.error('Ошибка:', error));
+  };
+

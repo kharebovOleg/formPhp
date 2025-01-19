@@ -1,7 +1,6 @@
 
 * {
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    color:rgb(35, 7, 63);
 }
 
 body {
@@ -20,6 +19,10 @@ nav {
     height: 40px;
     display: flex;
     align-items: center;
+}
+
+nav button {
+    color:rgb(35, 7, 63);
 }
 
 ul {
@@ -96,14 +99,41 @@ legend {
 
 .phone {
     display: flex;
+    justify-content: space-between;
     gap: 20px;
 }
 
+.phone .form__field-container span {
+    width: 150px;
+}
+
 .birthday {
-    position: absolute;
-    top: 500px;
-    
     width: 356px;
+}
+
+.birthday_field {
+    position: relative;
+}
+
+.form__error {
+    position: absolute;
+    width: 340px;
+    color: blue;
+    font-size: 12px;
+}
+
+.form__type-input {
+    color: black;
+    font-size: 16px;
+}
+
+.form__empty-error {
+    color: blue;
+    font-size: 12px;
+}
+
+.form__error.input__email-error.form__error-active {
+    top: 180px;
 }
 
 .date-inputs {
@@ -124,13 +154,14 @@ legend {
     align-items: center;
     width: 100px;
     height: 26px;
-    font-size: 12px;
+    font-size: 14px;
 
     padding: 5px 10px;
     border: 1px solid black;
     border-radius: 5%;
     cursor: pointer;
 }
+
 
 .male::after,
 .female::after {
@@ -155,10 +186,6 @@ legend {
 
 .button-changings:active {
     transform: translateY(2px);
-}
-
-.birthday_field {
-    /* position: relative; */
 }
 
 input[type="radio"] {

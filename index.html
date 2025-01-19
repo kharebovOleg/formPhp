@@ -16,75 +16,211 @@
     </ul>
 </nav>
 <br>
-<form id="form" action="">
-    <label class="email">
-        Email <em class="red-star">*</em>
-        <br>
-        <input type="email" name="email" id="email" required>
+<form
+    class="form"
+    id="form"
+    method="post"
+    novalidate
+    >
+    <label class="form__field">
+        <span class="form__label">Email <em class="red-star">*</em></span>
+        <input
+            type="email"
+            id="input__email"
+            class="form__type-input"
+            placeholder="petrov292@mail.ru"
+            aria-describedby="email-error"
+            required
+        >
     </label>
+    <span
+        class="form__error
+        input__email-error"
+        id="email-error"
+        aria-live="polite"
+    >
+    </span>
     <br>
     <div class="phone">
-        <div>
-            <label for="phone-number">Номер телефона <em class="red-star">*</em></label>
-            <input type="number" name="phone-number" id="phone-number" required>
+        <div class="form__field-container">
+            <label class="form__field">
+                <span class="form__label">Номер телефона <em class="red-star">*</em></span>
+                <input
+                    type="tel"
+                    id="input__phone"
+                    class="form__type-input"
+                    name="phone-number"
+                    placeholder="+79999999999"
+                    pattern="[\+]\d{1}\s[\(]\d{3}[\)]\s\d{3}[\-]\d{2}[\-]\d{2}"
+                    minlength="10"
+                    maxlength="18"
+                    data-error-message="Разрешены только цифровые символы и +"
+                    aria-describedby="phone-error"
+                    required
+                >
+            </label>
+            <span
+                class="form__error
+                input__phone-error"
+                id="phone-error"
+                aria-live="polite"
+            >
         </div>
-        <div>
-            <label for="additional_number">Дополнительный номер</label>
-            <input type="number" name="additional_number" id="additional_number">
+        <div class="form__field-container">
+            <label class="form__field">
+                <span class="form__label">Дополнительный номер</span>
+                <input
+                    type="tel"
+                    id="input__additional"
+                    class="form__type-input"
+                    name="add-number"
+                    placeholder="+79999999999"
+                    pattern="[\+]\d{1}\s[\(]\d{3}[\)]\s\d{3}[\-]\d{2}[\-]\d{2}"
+                    minlength="10"
+                    maxlength="18"
+                    data-error-message="Разрешены только цифровые символы и +"
+                    aria-describedby="additional-error"
+                >
+            </label>
+            <span
+                class="form__error
+                input__additional-error"
+                id="additional-error"
+                aria-live="polite"
+            >
         </div>
     </div>
     <br>
-    <label for="sirname">Фамилия <em class="red-star">*</em></label>
-    <input type="text" name="sirname" id="sirname" required>
+    <div class="form__field-container">
+        <label class="form__field">
+            <span class="form__label">Фамилия <em class="red-star">*</em></span>
+            <input
+                type="text"
+                id="input__surname"
+                class="form__type-input"
+                name="sirname"
+                placeholder="Петров"
+                pattern="^[a-zA-Zа-яА-ЯЁё\s\-]+$"
+                data-error-message="Разрешены символы латиницы, кириллицы, знаки дефиса и пробелы."
+                aria-describedby="surname-error"
+                required
+            >
+        </label>
+        <span
+            class="form__error
+            input__surname-error"
+            id="surname-error"
+            aria-live="polite"
+        >
+        </span>
+    </div>
     <br>
-    <label for="name">Имя <em class="red-star">*</em></label>
-    <input type="text" name="name" id="name" required>
+    <div class="form__field-container">
+        <label class="form__field">
+            <span class="form__label">Имя <em class="red-star">*</em></span>
+            <input
+                type="text"
+                id="input__name"
+                class="form__type-input"
+                name="name"
+                placeholder="Иван"
+                pattern="^[a-zA-Zа-яА-ЯЁё \-]+$"
+                data-error-message="Разрешены символы латиницы,
+                кириллицы, знаки дефиса и пробелы."
+                aria-describedby="surname-error"
+                required
+            >
+        </label>
+        <span
+            class="form__error
+            input__name-error"
+            id="name-error"
+            aria-live="polite"
+        >
+        </span>
+    </div>
     <br>
-    <label for="patronymic">Отчество</label>
-    <input type="text" name="patronymic" id="patronymic">
+    <div class="form__field-container">
+        <label class="form__field">
+            <span class="form__label">Отчество</span>
+            <input
+            type="text"
+            id="input__patronymic"
+            class="form__type-input"
+            name="patronymic"
+            placeholder="Иваныч"
+            pattern="^[a-zA-Zа-яА-ЯЁё \-]+$"
+            data-error-message="Разрешены символы латиницы,
+            кириллицы, знаки дефиса и пробелы."
+            aria-describedby="patronymic-error"
+            >
+        </label>
+        <span
+            class="form__error
+            input__patronymic-error"
+            id="patronymic-error"
+            aria-live="polite"
+        >
+    </div>
     <br><br>
-    <div class="birthday">
-        <label>Дата рождения</label>
-        <div class="date-inputs">
-            <select
-                name="day"
-                id="days"
-                onfocus='this.size=5;' 
-                onblur='this.size=1;'
-                onchange='this.size=1; this.blur();'
-            >
-                <option value="" disabled selected>-- День --</option>
-            </select>
-            <select
-                name="month"
-                id="months"
-                onfocus='this.size=5;' 
-                onblur='this.size=1;'
-                onchange='this.size=1; this.blur();'
-            >
-                <option value="" disabled selected>-- Месяц --</option>
-            </select>
-            <select
-                name="year"
-                id="years"
-                onfocus='this.size=5;'
-                onblur='this.size=1;'
-                onchange='this.size=1; this.blur();'
-            >
-                <option value="" disabled selected>-- Год --</option>
-            </select>
+    <div class="birthday_field">
+        <div class="birthday">
+            <label>Дата рождения</label>
+            <div class="date-inputs">
+                <select
+                    name="day"
+                    id="days"
+                    onfocus='this.size=5;' 
+                    onblur='this.size=1;'
+                    onchange='this.size=1; this.blur();'
+                >
+                    <option value="" disabled selected>-- День --</option>
+                </select>
+                <select
+                    name="month"
+                    id="months"
+                    onfocus='this.size=5;' 
+                    onblur='this.size=1;'
+                    onchange='this.size=1; this.blur();'
+                >
+                    <option value="" disabled selected>-- Месяц --</option>
+                </select>
+                <select
+                    name="year"
+                    id="years"
+                    onfocus='this.size=5;'
+                    onblur='this.size=1;'
+                    onchange='this.size=1; this.blur();'
+                >
+                    <option value="" disabled selected>-- Год --</option>
+                </select>
+            </div>
         </div>
     </div>
+    
     <br><br>
-    <label>Пол</label>
-    <div class="chose-sex">
-        <input type="radio" id="male" name="sex">
-        <label class="male" for="male" id="male">Мужской</label>
-        <input type="radio" id="female" name="sex">
-        <label class="female" for="female" id="female">Женский</label>
-    </div>
+    <fieldset class="gender">
+        <legend>Пол</legend>
+        <input type="radio" id="male" name="gender" value="mail">
+        <label class="male" for="male">Мужской</label>
+        <input type="radio" id="female" name="gender" value="female">
+        <label class="female" for="female">Женский</label>
+    </fieldset>
     <br>
-    <input type="submit" class="save-changings" name="save-changings" value="Сохранить изменения">
+    <button
+        type="submit"
+        class="button"
+        id="empty-error"
+        aria-live="assertive"
+    >
+        Сохранить изменения
+    </button>
+    <span
+        class="form__empty-error"
+        id="empty-error"
+        aria-live="assertive"
+    >
+  </span>
 </form>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
 <script src="script.js"></script>

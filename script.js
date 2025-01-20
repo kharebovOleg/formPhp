@@ -60,6 +60,8 @@ function makeButtonsInteactive() {
 
 // Валидация полей
 
+// доделать функцию отключения кнопки "отправить" при нарушении валидации
+
 const form = document.querySelector('.form');
 const inputList = Array.from(form.querySelectorAll('.form__type-input'));
 const buttonElement = form.querySelector('.button');
@@ -68,7 +70,7 @@ const formErrorElement = form.querySelector('.form__empty-error');
 startValidation(); // вкл/выкл валидации
 
 function startValidation() {
-  toggleButton()
+  //toggleButton();
   form.addEventListener('submit', (event) => {
     event.preventDefault();
     if (hasInvalidInput()) {
@@ -82,7 +84,7 @@ function startValidation() {
   inputList.forEach((inputElement) => {
     inputElement.addEventListener('input', () => {
       checkInputValidity(inputElement);
-      toggleButton();
+      //toggleButton();
     })
     inputElement.addEventListener('blur', () => {
       toggleInputError(inputElement);
@@ -113,6 +115,7 @@ function checkLengthMismatch(inputElement) {
 }
 
 function hasInvalidInput() {
+  console.log(inputList.some(inputElement => console.log(inputElement)));
   return inputList.some(inputElement => !inputElement.validity.valid);
 }
 
@@ -142,10 +145,10 @@ function toggleErrorSpan(inputElement, errorMessage){
 function toggleButton() {
   if (hasInvalidInput()) {
     buttonElement.classList.add('button-inactive');
-    buttonElement.setAttribute('aria-disabled', 'true');
+    buttonElement.setAttribute('disabled', 'true');
   } else {
     buttonElement.classList.remove('button-inactive');
-    buttonElement.setAttribute('aria-disabled', 'false');
+    buttonElement.setAttribute('disabled', 'false');
     formErrorElement.textContent = '';
   }
 }

@@ -67,7 +67,7 @@ const inputList = Array.from(form.querySelectorAll('.form__type-input'));
 const buttonElement = form.querySelector('.button');
 const formErrorElement = form.querySelector('.form__empty-error');
 
-startValidation(); // вкл/выкл валидации
+//startValidation(); // вкл/выкл валидации
 
 function startValidation() {
   //toggleButton();

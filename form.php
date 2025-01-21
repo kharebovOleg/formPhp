@@ -97,7 +97,7 @@ function createDate()
 function normalizePhoneNumber($phone)
 {
     $tel = trim((string) $phone);
-    $justNums = preg_replace("/[^0-9A-zА-я]/", '', $tel); 
+    $justNums = preg_replace("/[^0-9A-zА-я\+]/", '', $tel); 
     $changedPlusSeven = str_replace("+7", '8', $justNums);
     return $changedPlusSeven;
 }
@@ -169,10 +169,17 @@ function createRules(array $keys): array
 
 function hasAnyErrrorInRequiredFields(array $errors, array $requiredFields): bool
 {
-    $res = true;
-    foreach($errors as $key) {
-        if(in_array($key,$requiredFields)) $res = false;
+    print_r("\nhasAnyErrrorInRequiredFields: \n");
+    $res = false;
+    foreach($errors as $key => $value) {
+        echo 'error: ' . $key;
+        if(in_array($key,$requiredFields)) $res = true;
+        echo "\n";
+        var_dump(in_array($key,$requiredFields));
     }
+    echo "\n";
+    echo "result: ";
+    var_dump($res);
     return $res;
 }
 
@@ -188,13 +195,8 @@ function createResponse(array $errors)
     foreach($errors as $error => $value) {
         if((string) $value !== '') $response['errors'][$error] = $value;
     }
-    if(array_key_exists('add-number', $response['errors']) && count($response['errors']) === 1) { // если есть ошибка в доп поле, не правильно работает
-        $succes = true;
-    } else {
-        $succes = count($response['errors']) === 0 ? true : false;
-    }
 
-    // $succes = hasAnyErrrorInRequiredFields($response['errors'], $requiredFields);
+    $succes = !hasAnyErrrorInRequiredFields($response['errors'], $requiredFields);
     $response['succes'] = $succes;
 
     return $response;

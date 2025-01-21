@@ -1,7 +1,8 @@
 <?php
 
 class Validator {
-    public function check($rules, $data) {
+    public function check($rules, $data): array
+    {
         $errors = [];
         foreach ($rules as $field => $ruleSet) {
             $errors[$field] = '';

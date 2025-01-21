@@ -3,7 +3,8 @@ require_once 'validator.php';
 
 $validate = new Validator(); //валидатор принимает правила валидации и объект валидации, возвращает массив с ошибками
 
-$keysAndValues = createArrayForValidate($_POST); //массив который будем валидировать
+$keysAndValues = prepareArrayForValidate($_POST); //массив который будем валидировать
+
 $keys = array_keys($keysAndValues);
 
 $rules = createRules($keys); //правила валидации
@@ -11,47 +12,33 @@ $rules = createRules($keys); //правила валидации
 $errors = $validate->check($rules, $keysAndValues);
 
 $response = createResponse($errors, $keysAndValues);
+
 $jsonResponse = writeToJson($response);
-$stringRespone = json_encode($jsonResponse, JSON_UNESCAPED_UNICODE);
-
-// echo "\n";
-// echo 'errors: ';
-// print_r($errors);
-
-echo "\n";
-echo 'keysAndValues: ';
-print_r($keysAndValues);
-
-echo "\n";
-echo 'rules:';
-print_r($rules);
-
-echo "\n";
-echo 'response: ';
-var_dump($response);
 
 
-echo "\n";
-echo 'json: ';
-print_r($jsonResponse);
+printArrayInfo('Массив для валидации', $keysAndValues);
+printArrayInfo('Правила валидации', $rules);
+printArrayInfo('Результаты валидации', $errors);
 
-echo "\n";
-echo 'string: ';
-print_r($stringRespone);
+print_r("\n" . "JSON" . "\n\n");
+print_r(prettyPrint($jsonResponse));
 
-echo "\n";
-var_dump($response['succes'] === true ? 'sending response to mail' : 'fail');
-if($response['succes'] === true) sendMail($keysAndValues['email'], $stringRespone);
-
-// валидация
+if($response['succes'] === true) sendMail($keysAndValues['email'], $jsonResponse);
 
 
-// преобразует ключи ['day'], ['month], ['year'] в ключ ['date'], убирает незаполненные необязательные поля
-function createArrayForValidate(array $arr): array
+
+
+/** prepareArrayForValidate
+ * убирает ключи ['day'], ['month], ['year'] из массива,
+ * добавляет ключ ['date'],
+ * нормализует телефонные номера
+ * убирает незаполненные необязательные поля
+ */
+function prepareArrayForValidate(array $arr): array
 {
     $res = $arr;
     $keys = array_keys($arr);
-    if(isDateFilled($keys)) {
+    if(isAllDateFieldsFilled($keys)) {
         $date = createDate();
         $res['date'] = $date;
     }
@@ -62,8 +49,7 @@ function createArrayForValidate(array $arr): array
         $res['add-number'] = normalizePhoneNumber($res['add-number']);
     }
     $res = deleteEmptyOptionalFields($res);
-    // if($res['add-number'] === '') unset($res['add-number']);
-    // if($res['patronymic'] === '') unset($res['patronymic']);
+
     unset($res['day']);
     unset($res['month']);
     unset($res['year']);
@@ -79,7 +65,7 @@ function deleteEmptyOptionalFields(array $res): array
 }
 
 // все ли ключи ['day'], ['month], ['year'] есть
-function isDateFilled(array $keys): bool
+function isAllDateFieldsFilled(array $keys): bool
 {
     return in_array('day',$keys) && in_array('month',$keys) && in_array('year',$keys);
 }
@@ -97,9 +83,10 @@ function createDate()
 function normalizePhoneNumber($phone)
 {
     $tel = trim((string) $phone);
-    $justNums = preg_replace("/[^0-9A-zА-я\+]/", '', $tel); 
-    $changedPlusSeven = str_replace("+7", '8', $justNums);
-    return $changedPlusSeven;
+    $changedPlusSeven = str_replace("+7", '8', $tel);
+    $justNums = preg_replace("/[^0-9A-zА-я\+]/", '', $changedPlusSeven); 
+    
+    return $justNums;
 }
 
 function normalizeMonth(string $month): string
@@ -163,23 +150,15 @@ function createRules(array $keys): array
 }
 
 /**
- * сделать функцию, которая посмотрит на массив errors и если ошибки будут только
- * в необязательных полях, поставит true
+ * функция, которая посмотрит на массив errors и если не найдет ошибки
+ * в обязательных полях, вернет true
  */
-
 function hasAnyErrrorInRequiredFields(array $errors, array $requiredFields): bool
 {
-    print_r("\nhasAnyErrrorInRequiredFields: \n");
     $res = false;
     foreach($errors as $key => $value) {
-        echo 'error: ' . $key;
         if(in_array($key,$requiredFields)) $res = true;
-        echo "\n";
-        var_dump(in_array($key,$requiredFields));
     }
-    echo "\n";
-    echo "result: ";
-    var_dump($res);
     return $res;
 }
 
@@ -188,12 +167,13 @@ function hasAnyErrrorInRequiredFields(array $errors, array $requiredFields): boo
 function createResponse(array $errors)
 {
     $requiredFields = ['email', 'phone-number', 'name', 'sirname'];
+    
     $response = [];
-    $succes = false;
-    $response['succes'] = $succes;
+    $response['succes'] = false;
     $response['errors'] = [];
+
     foreach($errors as $error => $value) {
-        if((string) $value !== '') $response['errors'][$error] = $value;
+        if((string) $value !== '') $response['errors'][$error] = trim($value);
     }
 
     $succes = !hasAnyErrrorInRequiredFields($response['errors'], $requiredFields);
@@ -204,7 +184,7 @@ function createResponse(array $errors)
 
 function writeToJson($obj)
 {
-    $jsonResponse = json_encode($obj, JSON_UNESCAPED_UNICODE);
+    $jsonResponse = json_encode($obj, JSON_UNESCAPED_UNICODE, JSON_PRETTY_PRINT);
     header('Content-Type: application/json');
 
     return $jsonResponse;
@@ -213,6 +193,74 @@ function writeToJson($obj)
 function sendMail($mail, $stringRespone)
 {
     mail($mail, 'answer', $stringRespone);
+}
+
+
+function printArrayInfo(string $name, array $arr): void
+{
+    echo "{$name}\n";
+    echo "________________________________________________\n\n";
+    foreach($arr as $key => $value) {
+        print_r("{$key} : {$value}\n");
+    }
+    echo "________________________________________________\n\n";
+}
+
+function prettyPrint($json)
+{
+    $result = '';
+    $level = 0;
+    $in_quotes = false;
+    $in_escape = false;
+    $ends_line_level = NULL;
+    $json_length = strlen( $json );
+
+    for( $i = 0; $i < $json_length; $i++ ) {
+        $char = $json[$i];
+        $new_line_level = NULL;
+        $post = "";
+        if( $ends_line_level !== NULL ) {
+            $new_line_level = $ends_line_level;
+            $ends_line_level = NULL;
+        }
+        if ( $in_escape ) {
+            $in_escape = false;
+        } else if( $char === '"' ) {
+            $in_quotes = !$in_quotes;
+        } else if( ! $in_quotes ) {
+            switch( $char ) {
+                case '}': case ']':
+                    $level--;
+                    $ends_line_level = NULL;
+                    $new_line_level = $level;
+                    break;
+
+                case '{': case '[':
+                    $level++;
+                case ',':
+                    $ends_line_level = $level;
+                    break;
+
+                case ':':
+                    $post = " ";
+                    break;
+
+                case " ": case "\t": case "\n": case "\r":
+                    $char = "";
+                    $ends_line_level = $new_line_level;
+                    $new_line_level = NULL;
+                    break;
+            }
+        } else if ( $char === '\\' ) {
+            $in_escape = true;
+        }
+        if( $new_line_level !== NULL ) {
+            $result .= "\n".str_repeat( "\t", $new_line_level );
+        }
+        $result .= $char.$post;
+    }
+
+    return $result;
 }
 
 

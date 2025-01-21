@@ -14,8 +14,10 @@ class Validator {
                     case 'empty':
                         if($this->validateEmpty($data[$field])) {
                             $errors[$field] .= 'обязательное поле не заполнено; ';
-                        }
-                        break;
+                        // другие требования нет смысла проверять, выходим из foreach
+                        continue 3;
+                        }                        
+                       
                     case 'min':
                         if(!$this->validateMin($data[$field], $parameter)) {
                             $errors[$field] .= 'количество символов слишком маленькое; ';

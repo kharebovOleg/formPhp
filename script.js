@@ -1,4 +1,4 @@
-// Зполнение вариантов выбопа даты
+// Зполнение вариантов выбора даты
 const days = [
   1,2,3,4,5,6,7,8,9,10,
   11,12,13,14,15,16,17,
@@ -41,9 +41,9 @@ fillDataList(years, yearsId);
 
 
 // Эффект переключения кнопок панели меню
-makeButtonsInteactive();
+makeButtonsInteractive();
 
-function makeButtonsInteactive() {
+function makeButtonsInteractive() {
   document.querySelectorAll('.menubutton').forEach(function(e) {
     e.addEventListener('click', function() {
       document.querySelectorAll('.menubutton')
@@ -67,10 +67,10 @@ const inputList = Array.from(form.querySelectorAll('.form__type-input'));
 const buttonElement = form.querySelector('.button');
 const formErrorElement = form.querySelector('.form__empty-error');
 
-//startValidation(); // вкл/выкл валидации
+startValidation(); // вкл/выкл валидации
 
 function startValidation() {
-  //toggleButton();
+  //toggleButton(); // некорректно работет всегда блокирует кнопку, а должна только при валидации
   form.addEventListener('submit', (event) => {
     event.preventDefault();
     if (hasInvalidInput()) {
@@ -114,9 +114,8 @@ function checkLengthMismatch(inputElement) {
   return '';
 }
 
-function hasInvalidInput() {
-  console.log(inputList.some(inputElement => console.log(inputElement)));
-  return inputList.some(inputElement => !inputElement.validity.valid);
+function hasInvalidInput() { //работает правильно, если в элементе inputlist нарушена валидация вернет false 
+  return inputList.some(inputElement => !inputElement.validity.valid); // тут может надо поставить "!", а может нет
 }
 
 function toggleInputError(inputElement) {
@@ -154,7 +153,7 @@ function toggleButton() {
 }
 
 function formError() {
-  const errorMessage = 'Заполните все обязательные поля для отправки формы.';
+  const errorMessage = 'Форма заполнена с ошибками';
   formErrorElement.textContent = errorMessage;
 }
 

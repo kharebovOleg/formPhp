@@ -137,10 +137,25 @@ legend {
 }
 
 .date-inputs {
+    position: relative;
     width: auto;
     display: flex;
     justify-content: space-between;
     gap: 20px;
+}
+
+#days {
+    position: absolute;
+}
+
+#months {
+    position: absolute;
+    left: 120px;
+}
+
+#years {
+    position: absolute;
+    left: 250px;
 }
 
 .gender {
